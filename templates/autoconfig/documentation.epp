@@ -1,0 +1,8 @@
+<%- | String $url,
+      Hash   $descriptions,
+| -%>
+    <documentation url="<%= $url %>">
+<% $descriptions.each | String $key, String $val | { -%>
+      <descr lang="<%= $key %>"><%= $val %></descr>
+<% } -%>
+    </documentation>

@@ -1,0 +1,11 @@
+<%- | String $provider    = $::fqdn,
+      String $domain      = $::domain,
+      String $shortname   = $::hostname,
+      String $displayname = 'My Mailserver',
+| -%>
+<?xml version="1.0" encoding="UTF-8"?>
+<clientConfig version="1.1">
+  <emailProvider id="<%= $provider %>">
+    <domain><%= $domain %></domain>
+    <displayName><%= $shortname %></displayName>
+    <displayShortName><%= $displayname %></displayShortName>

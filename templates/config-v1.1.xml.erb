@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientConfig version="1.1">
+  <emailProvider id="<%= @main_maildomain -%>">
+    <domain><%= @main_maildomain -%></domain>
+    <displayName><%= @shortname -%> Mail</displayName>
+    <displayShortName><%= @shortname -%></displayShortName>
+    <incomingServer type="imap">
+      <hostname><%= @email_fqdn -%></hostname>
+      <port>993</port>
+      <socketType>SSL</socketType>
+      <authentication>password-encrypted</authentication>
+      <username>%EMAILADDRESS%</username>
+    </incomingServer>
+    <incomingServer type="imap">
+      <hostname><%= @email_fqdn -%></hostname>
+      <port>143</port>
+      <socketType>STARTTLS</socketType>
+      <authentication>password-encrypted</authentication>
+      <username>%EMAILADDRESS%</username>
+    </incomingServer>
+    <incomingServer type="pop3">
+      <hostname><%= @email_fqdn -%></hostname>
+      <port>995</port>
+      <socketType>SSL</socketType>
+      <authentication>password-cleartext</authentication>
+      <username>%EMAILADDRESS%</username>
+    </incomingServer>
+    <incomingServer type="pop3">
+      <hostname><%= @email_fqdn -%></hostname>
+      <port>110</port>
+      <socketType>STARTTLS</socketType>
+      <authentication>password-cleartext</authentication>
+      <username>%EMAILADDRESS%</username>
+    </incomingServer>
+    <outgoingServer type="smtp">
+      <hostname><%= @email_fqdn -%></hostname>
+      <port>465</port>
+      <socketType>SSL</socketType>
+      <authentication>password-encrypted</authentication>
+      <username>%EMAILADDRESS%</username>
+    </outgoingServer>
+    <outgoingServer type="smtp">
+      <hostname><%= @email_fqdn -%></hostname>
+      <port>587</port>
+      <socketType>STARTTLS</socketType>
+      <authentication>password-encrypted</authentication>
+      <username>%EMAILADDRESS%</username>
+    </outgoingServer>
+    <documentation url="https://<%= @webmail_fqdn -%>">
+      <descr lang="de">Webmail <%= @shortname -%></descr>
+      <descr lang="en">Webmail <%= @shortname -%></descr>
+      <descr lang="fr">Webmail <%= @shortname -%></descr>
+    </documentation>
+    <documentation url="<%= @weburl -%>">
+      <descr lang="de"><%= @weburlname -%></descr>
+      <descr lang="en"><%= @weburlname -%></descr>
+      <descr lang="fr"><%= @weburlname -%></descr>
+    </documentation>
+  </emailProvider>
+</clientConfig>
+

@@ -17,17 +17,28 @@
 ## Overview
 
 This module is used to configure a virtual webhost wich
-contains files for autoconfiguring email
+contains files for autoconfiguring email clients.
+
 
 ## Usage
 
-Todo
+    include autoconfigmail
+
+To make it work, you need to setup DNS for your maildomains. An example record would look like:
+
+    ; Autoconfig for Thunderbird etc.
+    autoconfig                   IN CNAME  your_webserver
+    ; Autoconfig for Outlook
+    autodiscover._tcp            IN SRV     0 5 80 your_webserver
 
 
 ## Reference
-### classes
 
-### defined types
+Find a reference of all available parameters in the manifests.
+
+## Todo
+
+add further autoconfigure methods. eg: for iOS / Apple Mail (email.mobileconfig).
 
 ## Contributing
 

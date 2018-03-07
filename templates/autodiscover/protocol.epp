@@ -1,0 +1,27 @@
+<%- | String  $type,
+      String  $port,
+      String  $server         ='<?php echo $mailserver ?>',
+      String  $loginname      ='<?php echo $email ?>',
+      String  $domainrequired = 'off',
+      String  $spa            = 'off',
+      String  $ssl            = 'on',
+      String  $authrequired   = 'on',
+      Boolean $usepopauth     = false,
+      String  $smtplast       = '',
+| -%>
+    <Protocol>
+      <Type><%= $type %></Type>
+      <Server><%= $server %></Server>
+      <LoginName><%= $loginname %></LoginName>
+      <Port><%= $port %></Port>
+      <DomainRequired><%= $domainrequired %></DomainRequired>
+      <SPA><%= $spa %></SPA>
+      <SSL><%= $ssl %></SSL>
+      <AuthRequired><%= $authrequired %></AuthRequired>
+<% if $usepopauth { -%>
+      <UsePOPAuth/>
+<% } -%>
+<% if $smtplast != '' { -%>
+      <SMTPLast><%= $smtplast %></SMTPLast>
+<% } -%>
+    </Protocol>

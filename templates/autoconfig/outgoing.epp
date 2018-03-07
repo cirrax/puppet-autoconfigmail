@@ -1,0 +1,14 @@
+<%- | String $type,
+      String $hostname       = $::fqdn,
+      String $port,
+      String $sockettype,
+      String $authentication = 'password-encrypted',
+      String $username       = '%EMAILADDRESS%',
+| -%>
+    <outgoingServer type="<%= $type %>">
+      <hostname><%= $hostname -%></hostname>
+      <port><%= $port %></port>
+      <socketType><%= $sockettype %></socketType>
+      <authentication><%= $authentication %></authentication>
+      <username><%= $username %></username>
+    </outgoingServer>

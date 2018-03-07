@@ -1,0 +1,18 @@
+<%- | String $mailserver = $::fqdn,
+| -%>
+<?php header("Content-type: text/xml"); ?>
+<?php
+   //Lese den Body der XML-Anfrage von Outlook aus
+   $xmlObj = simplexml_load_string(file_get_contents('php://input'));
+   //Suche in der XML-Antwort die E-Mailadresse raus
+   $arraydata = (array) $xmlObj;
+   $arraydata = (array) $arraydata["Request"];
+   $email = $arraydata["EMailAddress"];
+   $mailserver = '<%= $mailserver %>';
+?>
+
+<Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
+<Response xmlns="http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a">
+  <Account>
+    <AccountType>email</AccountType>
+    <Action>settings</Action>
