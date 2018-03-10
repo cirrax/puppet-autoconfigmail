@@ -1,6 +1,6 @@
 {
   "name": "cirrax-autoconfigmail",
-  "version": "2.0.1",
+  "version": "1.0.0",
   "author": "Cirrax GmbH",
   "license": "GPL-3.0",
   "summary": "A module to create a vhost for autoconfigure/autodiscover email services",
