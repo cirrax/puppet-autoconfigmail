@@ -1,4 +1,4 @@
-
+#
 class autoconfigmail::params () {
 
   $autodiscover_protocols_default = [
