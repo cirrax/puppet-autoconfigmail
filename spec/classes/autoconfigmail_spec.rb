@@ -6,15 +6,6 @@ describe 'autoconfigmail' do
     'class { "apache": mpm_module => "prefork" }'
   end
 
-  let :facts do
-    {
-      operatingsystemrelease: 'test',
-      osfamily: 'Debian',
-      operatingsystem: 'Debian',
-      lsbdistcodename: 'Debian',
-    }
-  end
-
   let :default_params do
     { mailserver: 'hostname',
       documentroot: '/var/www/html',
@@ -31,51 +22,57 @@ describe 'autoconfigmail' do
     it { is_expected.to compile.with_all_deps }
   end
 
-  context 'with defaults' do
-    let :params do
-      default_params
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
+
+      context 'with defaults' do
+        let :params do
+          default_params
+        end
+
+        it_behaves_like 'autoconfigmail shared examples'
+
+        it { is_expected.to contain_class('autoconfigmail::autodiscover') }
+        it { is_expected.to contain_class('autoconfigmail::autoconfig') }
+        it { is_expected.not_to contain_class('autoconfigmail::vhost::apache') }
+      end
+
+      context 'without autodiscover' do
+        let :params do
+          default_params.merge(enable_autodiscover: false)
+        end
+
+        it_behaves_like 'autoconfigmail shared examples'
+
+        it { is_expected.not_to contain_class('autoconfigmail::autodiscover') }
+        it { is_expected.to contain_class('autoconfigmail::autoconfig') }
+        it { is_expected.not_to contain_class('autoconfigmail::vhost::apache') }
+      end
+
+      context 'without autoconfig' do
+        let :params do
+          default_params.merge(enable_autoconfig: false)
+        end
+
+        it_behaves_like 'autoconfigmail shared examples'
+
+        it { is_expected.to contain_class('autoconfigmail::autodiscover') }
+        it { is_expected.not_to contain_class('autoconfigmail::autoconfig') }
+        it { is_expected.not_to contain_class('autoconfigmail::vhost::apache') }
+      end
+
+      context 'with apache vhost' do
+        let :params do
+          default_params.merge(vhost_type: 'apache')
+        end
+
+        it_behaves_like 'autoconfigmail shared examples'
+
+        it { is_expected.to contain_class('autoconfigmail::autodiscover') }
+        it { is_expected.to contain_class('autoconfigmail::autoconfig') }
+        it { is_expected.to contain_class('autoconfigmail::vhost::apache') }
+      end
     end
-
-    it_behaves_like 'autoconfigmail shared examples'
-
-    it { is_expected.to contain_class('autoconfigmail::autodiscover') }
-    it { is_expected.to contain_class('autoconfigmail::autoconfig') }
-    it { is_expected.not_to contain_class('autoconfigmail::vhost::apache') }
-  end
-
-  context 'without autodiscover' do
-    let :params do
-      default_params.merge(enable_autodiscover: false)
-    end
-
-    it_behaves_like 'autoconfigmail shared examples'
-
-    it { is_expected.not_to contain_class('autoconfigmail::autodiscover') }
-    it { is_expected.to contain_class('autoconfigmail::autoconfig') }
-    it { is_expected.not_to contain_class('autoconfigmail::vhost::apache') }
-  end
-
-  context 'without autoconfig' do
-    let :params do
-      default_params.merge(enable_autoconfig: false)
-    end
-
-    it_behaves_like 'autoconfigmail shared examples'
-
-    it { is_expected.to contain_class('autoconfigmail::autodiscover') }
-    it { is_expected.not_to contain_class('autoconfigmail::autoconfig') }
-    it { is_expected.not_to contain_class('autoconfigmail::vhost::apache') }
-  end
-
-  context 'with apache vhost' do
-    let :params do
-      default_params.merge(vhost_type: 'apache')
-    end
-
-    it_behaves_like 'autoconfigmail shared examples'
-
-    it { is_expected.to contain_class('autoconfigmail::autodiscover') }
-    it { is_expected.to contain_class('autoconfigmail::autoconfig') }
-    it { is_expected.to contain_class('autoconfigmail::vhost::apache') }
   end
 end

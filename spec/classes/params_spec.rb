@@ -6,7 +6,13 @@ describe 'autoconfigmail::params' do
     it { is_expected.to compile.with_all_deps }
   end
 
-  context 'with defaults' do
-    it_behaves_like 'autoconfigmail::params shared examples'
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
+
+      context 'with defaults' do
+        it_behaves_like 'autoconfigmail::params shared examples'
+      end
+    end
   end
 end
