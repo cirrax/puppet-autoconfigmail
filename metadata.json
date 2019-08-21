@@ -2,16 +2,24 @@
   "name": "cirrax-autoconfigmail",
   "version": "1.0.0",
   "author": "Cirrax GmbH",
-  "license": "GPL-3.0",
   "summary": "A module to create a vhost for autoconfigure/autodiscover email services",
+  "license": "GPL-3.0",
   "source": "https://github.com/cirrax/puppet-autoconfigmail",
   "project_page": "https://github.com/cirrax/puppet-autoconfigmail",
   "issues_url": "https://github.com/cirrax/puppet-autoconfigmail/issues",
-  "tags": [
-    "mail",
-    "email",
-    "autoconfig",
-    "autoconfigure"
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 2.0.0 < 3.0.0"
+    },
+    {
+      "name": "puppetlabs/apache",
+      "version_requirement": ">= 2.0.0 < 3.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
@@ -31,18 +39,13 @@
       "version_requirement": ">=4.0.0 < 6.0.0"
     }
   ],
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0 < 5.0.0"
-    },
-    {
-      "name": "puppetlabs/concat",
-      "version_requirement": ">= 2.0.0 < 3.0.0"
-    },
-    {
-      "name": "puppetlabs/apache",
-      "version_requirement": ">= 2.0.0 < 3.0.0"
-    }
-  ]
+  "tags": [
+    "mail",
+    "email",
+    "autoconfig",
+    "autoconfigure"
+  ],
+  "pdk-version": "1.12.0",
+  "template-url": "pdk-default#1.12.0",
+  "template-ref": "1.12.0-0-g55d9ae2"
 }
