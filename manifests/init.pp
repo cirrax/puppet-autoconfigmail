@@ -36,16 +36,16 @@
 #    and example
 #
 class autoconfigmail (
+  Array   $autoconfig_incoming,
+  Array   $autoconfig_outgoing,
+  Array   $autodiscover_protocols,
   String  $mailserver               = $::fqdn,
   String  $documentroot             = '/var/www/html',
   Boolean $enable_autodiscover      = true,
   Boolean $enable_autoconfig        = true,
   String  $vhost_type               = 'none',
-  Array   $autoconfig_incoming      = $autoconfigmail::params::autoconfig_incoming_default,
-  Array   $autoconfig_outgoing      = $autoconfigmail::params::autoconfig_outgoing_default,
-  Array   $autoconfig_documentation = $autoconfigmail::params::autoconfig_documentation_default,
-  Array   $autodiscover_protocols   = $autoconfigmail::params::autodiscover_protocols_default,
-) inherits autoconfigmail::params {
+  Array   $autoconfig_documentation = [],
+) {
 
   if $enable_autodiscover {
     include ::autoconfigmail::autodiscover
