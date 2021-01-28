@@ -34,7 +34,7 @@ To make it work, you need to setup DNS for your maildomains. An example record w
 
 ## Reference
 
-Find a reference of all available parameters in the manifests.
+Find a reference of all available parameters in the manifests or in the REFERENCE.md file.
 
 ## Todo
 

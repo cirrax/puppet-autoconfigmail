@@ -8,23 +8,23 @@
 # http://msdn.microsoft.com/en-us/library/dd899340%28v=exchg.140%29
 #
 # Parameters:
-#   $mailserver
-#     the mailserver to connect to
-#     defaults to: $autoconfigmail::mailserver
-#     Remark: if you specify 'hostname' on $incoming/$outgoing
-#     Hash, you can overwrite this default for specified service.
+# @param mailserver
+#   the mailserver to connect to
+#   defaults to: $autoconfigmail::mailserver
+#   Remark: if you specify 'hostname' on $incoming/$outgoing
+#   Hash, you can overwrite this default for specified service.
 # 
-#  $documentroot
-#    the document root, where to place the file
-#    defaults to: $autoconfigmail::documentroot
-#  $protocols
-#    Array of Hashes of services available for incoming mail
-#    defaults to $autoconfigmail::autodiscover_protocols
+# @param documentroot
+#   the document root, where to place the file
+#   defaults to: $autoconfigmail::documentroot
+# @param protocols
+#   Array of Hashes of services available for incoming mail
+#   defaults to $autoconfigmail::autodiscover_protocols
 #
-#    Example in hiera for imap service:
-#    autoconfigmail::autodiscover::protocols:
-#      - type: 'IMAP'
-#        port: '993'
+#   Example in hiera for imap service:
+#   autoconfigmail::autodiscover::protocols:
+#     - type: 'IMAP'
+#       port: '993'
 #
 class autoconfigmail::autodiscover (
   String $mailserver   = $autoconfigmail::mailserver,

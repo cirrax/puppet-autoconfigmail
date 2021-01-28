@@ -6,66 +6,57 @@
 # and:
 # https://developer.mozilla.org/en-US/docs/Thunderbird/Autoconfiguration/FileFormat/HowTo.
 #
-# Parameters:
-#  $mailserver
-#    the mailserver to connect to
-#    defaults to: $autoconfigmail::mailserver
-#    Remark: if you specify 'hostname' on $incoming/$outgoing
-#    Hash, you can overwrite this default for specified service.
+# @param  mailserver
+#   the mailserver to connect to
+#   defaults to: $autoconfigmail::mailserver
+#   Remark: if you specify 'hostname' on $incoming/$outgoing
+#   Hash, you can overwrite this default for specified service.
+# @param documentroot
+#   the document root, where to place the file
+#   defaults to: $autoconfigmail::documentroot
+# @param incoming
+#   Array of Hashes of services available for incoming mail
+#   defaults to $autoconfigmail::autoconfig_incoming
 #
-#  $documentroot
-#    the document root, where to place the file
-#    defaults to: $autoconfigmail::documentroot
+#   Example in hiera for imap service:
+#     autoconfigmail::autooconfig::incoming:
+#       - type:           'imap'
+#         port:           '143'
+#         sockettype:     'STARTTLS'
+#         authentication: 'password-encrypted'
+#         username:       '%EMAILADDRESS%'  # use if you login without domain %EMAILLOCALPART%
 #
-#  $incoming
-#    Array of Hashes of services available for incoming mail
-#    defaults to $autoconfigmail::autoconfig_incoming
+#   Remark: if you specify hostname, you can overwrite the default
+#   $mailserver for a service.
+# @param outgoing
+#   Array of Hashes of services available for sending mail
+#   defaults to $autoconfigmail::autoconfig_outgoing
 #
-#    Example in hiera for imap service:
-#      autoconfigmail::autooconfig::incoming:
-#        - type:           'imap'
-#          port:           '143'
-#          sockettype:     'STARTTLS'
-#          authentication: 'password-encrypted'
-#          username:       '%EMAILADDRESS%'  # use if you login without domain %EMAILLOCALPART%
+#   Example in hiera for smtp service:
+#     autoconfigmail::autoconfig::outgoing:
+#       - type:           'smtp'
+#         port:           '25'
+#         sockettype:     'STARTTLS'
+#         authentication: 'password-encrypted'
+#         username:       '%EMAILADDRESS%'  # use if you login without domain %EMAILLOCALPART%
 #
-#    Remark: if you specify hostname, you can overwrite the default
-#    $mailserver for a service.
-#
-#  $outgoing
-#    Array of Hashes of services available for sending mail
-#    defaults to $autoconfigmail::autoconfig_outgoing
-#
-#    Example in hiera for smtp service:
-#      autoconfigmail::autoconfig::outgoing:
-#        - type:           'smtp'
-#          port:           '25'
-#          sockettype:     'STARTTLS'
-#          authentication: 'password-encrypted'
-#          username:       '%EMAILADDRESS%'  # use if you login without domain %EMAILLOCALPART%
-#
-#    Remark: if you specify hostname, you can overwrite the default
-#    $mailserver for a service.
-#
-#  $documentation = $autoconfigmail::autoconfig_documentation_default,
-#    Array of Hashes to specify Url's about mail.
-#      autoconfigmail::autoconfig::documentation:
-#        - url: 'https://www.cirrax.com'
-#          descriptions:
-#            de: 'Cirrax Webseite'
-#            en: 'Website of Cirrax'
-#    
-#  $provider
-#    id of the email provider (defaults to $::fqdn)
-#
-#  $domain
-#    domain of the email provider (defaults to $::domain)
-#
-#  $shortname
-#    shortname of the email provider (defaults to $::hostname)
-#
-#  $displayname
-#    diplayname of the email provider (defaults to "Mailserver ${::fqdn}")
+#   Remark: if you specify hostname, you can overwrite the default
+#   $mailserver for a service.
+# @param documentation = $autoconfigmail::autoconfig_documentation_default,
+#   Array of Hashes to specify Url's about mail.
+#     autoconfigmail::autoconfig::documentation:
+#       - url: 'https://www.cirrax.com'
+#         descriptions:
+#           de: 'Cirrax Webseite'
+#           en: 'Website of Cirrax'
+# @param provider
+#   id of the email provider (defaults to $::fqdn)
+# @param domain
+#   domain of the email provider (defaults to $::domain)
+# @param shortname
+#   shortname of the email provider (defaults to $::hostname)
+# @param displayname
+#   diplayname of the email provider (defaults to "Mailserver ${::fqdn}")
 #
 class autoconfigmail::autoconfig (
   String $mailserver    = $autoconfigmail::mailserver,

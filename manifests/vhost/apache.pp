@@ -2,56 +2,55 @@
 # internal class that installs an apache vhost
 # to serve xml files.
 #
-# Parameters:
-#   $servername
-#     main servername defaults to $autoconfigmail::mailserver
-#   $serveraliases
-#     serveraliases, defaults to []
-#   $enable_autoconfig_alias
-#     if true (default) adds a serveralias 'autoconfig.*'
-#     for autoconfig.
-#   $apache_vhost_defaults
-#     other parameters to ::apache::vhost
-#     defaults to {}
-#   $documentroot
-#     the document root of the webwerver
-#     defaults to: $autoconfigmail::documentroot
-#   $ssl
-#     If true, use ssl (defaults to false)
-#     If true, you also need to set cert, key and chain.
-#   $ssl_cert
-#     ssl cert to use 
-#   $ssl_key
-#     ssl key to use
-#   $ssl_chain
-#     ssl chain to use
-#   $vhost_add
-#     Hash to add additional parameters to ::apache::vhost creation
+# @param servername
+#   main servername defaults to $autoconfigmail::mailserver
+# @param serveraliases
+#   serveraliases, defaults to []
+# @param enable_autoconfig_alias
+#   if true (default) adds a serveralias 'autoconfig.*'
+#   for autoconfig.
+# @param apache_vhost_defaults
+#   other parameters to ::apache::vhost
+#   defaults to {}
+# @param documentroot
+#   the document root of the webwerver
+#   defaults to: $autoconfigmail::documentroot
+# @param ssl
+#   If true, use ssl (defaults to false)
+#   If true, you also need to set cert, key and chain.
+# @param ssl_cert
+#   ssl cert to use 
+# @param ssl_key
+#   ssl key to use
+# @param ssl_chain
+#   ssl chain to use
+# @param vhost_add
+#   Hash to add additional parameters to ::apache::vhost creation
 #
-#     Example in hiera to add an additional include file:
-#       autoconfigmail::vhost::apache::vhost_add:
-#         additional_includes:
-#             - '/etc/letsencrypt/apache.conf'
+#   Example in hiera to add an additional include file:
+#     autoconfigmail::vhost::apache::vhost_add:
+#       additional_includes:
+#           - '/etc/letsencrypt/apache.conf'
 #
-#   $create_resources
-#     a Hash of Hashes to create additional resources eg. to 
-#     retrieve a certificate.
-#     Defaults to {} (do not create any additional resources)
-#     Example (hiera):
+# @param create_resources
+#   a Hash of Hashes to create additional resources eg. to 
+#   retrieve a certificate.
+#   Defaults to {} (do not create any additional resources)
+#   Example (hiera):
 #
-#     autoconfigmail::vhost::apache::create_resources:
-#       sslcert::get_cert:
-#         get_my_postfix_cert:
-#           private_key_path: '/etc/postfixadmin/ssl/key.pem'
-#           cert_path: '/etc/postfixadmin/ssl/cert.pem'
-#    
-#     Will result in  executing:
+#   autoconfigmail::vhost::apache::create_resources:
+#     sslcert::get_cert:
+#       get_my_postfix_cert:
+#         private_key_path: '/etc/postfixadmin/ssl/key.pem'
+#         cert_path: '/etc/postfixadmin/ssl/cert.pem'
+#  
+#   Will result in  executing:
 #
-#     sslcert::get_cert{'get_my_postfix_cert':
-#       private_key_path => '/etc/postfixadmin/ssl/key.pem'
-#       cert_path        => '/etc/postfixadmin/ssl/cert.pem'
-#     }
-# 
+#   sslcert::get_cert{'get_my_postfix_cert':
+#     private_key_path => '/etc/postfixadmin/ssl/key.pem'
+#     cert_path        => '/etc/postfixadmin/ssl/cert.pem'
+#   }
+#
 class autoconfigmail::vhost::apache (
   String  $servername              = $autoconfigmail::mailserver,
   Array   $serveraliases           = [],
