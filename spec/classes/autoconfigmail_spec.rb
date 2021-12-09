@@ -73,6 +73,18 @@ describe 'autoconfigmail' do
         it { is_expected.to contain_class('autoconfigmail::autoconfig') }
         it { is_expected.to contain_class('autoconfigmail::vhost::apache') }
       end
+
+      context 'with apache config' do
+        let :params do
+          default_params.merge(apache_config: '/tmp/apache.conf')
+        end
+
+        it_behaves_like 'autoconfigmail shared examples'
+        it {
+          is_expected.to contain_file('/tmp/apache.conf')
+            .with_mode('0444')
+        }
+      end
     end
   end
 end

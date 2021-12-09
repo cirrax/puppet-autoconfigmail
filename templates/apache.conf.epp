@@ -1,0 +1,17 @@
+<%- | String $docroot,
+| -%>
+
+## Alias declarations for resources 
+Alias /autodiscover/autodiscover.xml "<%= $docroot %>/autodiscover.xml"
+Alias /Autodiscover/Autodiscover.xml "<%= $docroot %>/autodiscover.xml"
+Alias /mail/config-v1.1.xml "<%= $docroot %>/config-v1.1.xml"
+
+<Files "autodiscover.xml">
+   AddType application/x-httpd-php .xml
+</Files>
+
+<IfModule rewrite_module>
+   RewriteRule ^/[aA]utodiscover - [L]
+   RewriteRule ^/mail - [L]
+</IfModule>
+

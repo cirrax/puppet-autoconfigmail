@@ -10,6 +10,11 @@
 # @param documentroot
 #   the document root, where to place the file
 #   defaults to: '/var/www/html'
+# @param apache_config
+#   Path to write an apache config snippet. For inclusion in an apache
+#   vhost. This file is only needed if you are configure you're vhost
+#   not using this module. The vhost generated with this module
+#   uses an implicit configuration of these settings.
 # @param enable_autodiscover
 #   if true, includes ::autoconfigmail::autodiscover
 #   defaults to true
@@ -34,15 +39,16 @@
 #   and example
 #
 class autoconfigmail (
-  Array   $autoconfig_incoming,
-  Array   $autoconfig_outgoing,
-  Array   $autodiscover_protocols,
-  String  $mailserver               = $::fqdn,
-  String  $documentroot             = '/var/www/html',
-  Boolean $enable_autodiscover      = true,
-  Boolean $enable_autoconfig        = true,
-  String  $vhost_type               = 'none',
-  Array   $autoconfig_documentation = [],
+  Array            $autoconfig_incoming,
+  Array            $autoconfig_outgoing,
+  Array            $autodiscover_protocols,
+  String           $mailserver               = $::fqdn,
+  String           $documentroot             = '/var/www/html',
+  Optional[String] $apache_config            = undef,
+  Boolean          $enable_autodiscover      = true,
+  Boolean          $enable_autoconfig        = true,
+  String           $vhost_type               = 'none',
+  Array            $autoconfig_documentation = [],
 ) {
 
   if $enable_autodiscover {
@@ -51,6 +57,15 @@ class autoconfigmail (
 
   if $enable_autoconfig {
     include ::autoconfigmail::autoconfig
+  }
+
+  if $apache_config {
+    file{ $apache_config:
+      mode    => '0444',
+      content => epp('autoconfigmail/apache.conf.epp', {
+        'docroot' => $documentroot,
+      } )
+    }
   }
 
   case $vhost_type {
