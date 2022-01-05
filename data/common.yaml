@@ -14,37 +14,25 @@ autoconfigmail::autoconfig_incoming:
   - type: 'imap'
     port: '993'
     sockettype: 'SSL'
-    authentication: 'password-encrypted'
-    username: '%EMAILADDRESS%'
     
   - type: 'imap'
     port: '143'
     sockettype: 'STARTTLS'
-    authentication: 'password-encrypted'
-    username: '%EMAILADDRESS%'
     
   - type: 'pop3'
     port: '995'
     sockettype: 'SSL'
-    authentication: 'password-encrypted'
-    username: '%EMAILADDRESS%'
     
   - type: 'pop3'
     port: '110'
     sockettype: 'STARTTLS'
-    authentication: 'password-encrypted'
-    username: '%EMAILADDRESS%'
 
 
 autoconfigmail::autoconfig_outgoing:
   - type: 'smtp'
     port: '465'
     sockettype: 'SSL'
-    authentication: 'password-encrypted'
-    username: '%EMAILADDRESS%'
     
   - type: 'smtp'
     port: '587'
     sockettype: 'STARTTLS'
-    authentication: 'password-encrypted'
-    username: '%EMAILADDRESS%'

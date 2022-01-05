@@ -33,6 +33,8 @@
 #   defaults to $autoconfigmail::autoconfig_outgoing
 #
 #   Example in hiera for smtp service:
+#     # Remark: if authentication/username is not specified,
+#     # default is taken.
 #     autoconfigmail::autoconfig::outgoing:
 #       - type:           'smtp'
 #         port:           '25'
@@ -57,17 +59,25 @@
 #   shortname of the email provider (defaults to $::hostname)
 # @param displayname
 #   diplayname of the email provider (defaults to "Mailserver ${::fqdn}")
+# @param default_authentication
+#   default authentication to take for incoming and outgoing if not
+#   specified there
+# @param default_username
+#   default username to take for incoming and outgoing if not
+#   specified there
 #
 class autoconfigmail::autoconfig (
-  String $mailserver    = $autoconfigmail::mailserver,
-  String $documentroot  = $autoconfigmail::documentroot,
-  Array  $incoming      = $autoconfigmail::autoconfig_incoming,
-  Array  $outgoing      = $autoconfigmail::autoconfig_outgoing,
-  Array  $documentation = $autoconfigmail::autoconfig_documentation,
-  String $provider      = $::fqdn,
-  String $domain        = $::domain,
-  String $shortname     = $::hostname,
-  String $displayname   = "Mailserver ${::fqdn}",
+  String $mailserver             = $autoconfigmail::mailserver,
+  String $documentroot           = $autoconfigmail::documentroot,
+  Array  $incoming               = $autoconfigmail::autoconfig_incoming,
+  Array  $outgoing               = $autoconfigmail::autoconfig_outgoing,
+  Array  $documentation          = $autoconfigmail::autoconfig_documentation,
+  String $provider               = $::fqdn,
+  String $domain                 = $::domain,
+  String $shortname              = $::hostname,
+  String $displayname            = "Mailserver ${::fqdn}",
+  String $default_authentication = 'password-encrypted',
+  String $default_username       = '%EMAILADDRESS%',
 ) inherits ::autoconfigmail {
 
   concat { "${documentroot}/config-v1.1.xml" :
@@ -91,7 +101,11 @@ class autoconfigmail::autoconfig (
   $incoming.each | Integer $key, Hash $val | {
     concat::fragment {"autoconfigmail::autoconfig: incoming ${key}":
       target  => "${documentroot}/config-v1.1.xml",
-      content => epp('autoconfigmail/autoconfig/incoming.epp', merge( { hostname => $mailserver }, $val) ),
+      content => epp('autoconfigmail/autoconfig/incoming.epp',
+        { hostname       => $mailserver,
+          authentication => $default_authentication,
+          username       => $default_username,
+        } + $val ),
       order   => "40-${key}",
     }
   }
@@ -99,7 +113,11 @@ class autoconfigmail::autoconfig (
   $outgoing.each | Integer $key, Hash $val | {
     concat::fragment {"autoconfigmail::autoconfig: outgoing ${key}":
       target  => "${documentroot}/config-v1.1.xml",
-      content => epp('autoconfigmail/autoconfig/outgoing.epp', merge( { hostname => $mailserver }, $val) ),
+      content => epp('autoconfigmail/autoconfig/outgoing.epp',
+        { hostname       => $mailserver,
+          authentication => $default_authentication,
+          username       => $default_username,
+        } + $val ),
       order   => "50-${key}",
     }
   }

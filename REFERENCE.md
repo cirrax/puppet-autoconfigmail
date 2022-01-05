@@ -13,16 +13,27 @@
 
 ## Classes
 
-### `autoconfigmail`
+### <a name="autoconfigmail"></a>`autoconfigmail`
 
 Main class to create autoconfiguring
 services
 
 #### Parameters
 
-The following parameters are available in the `autoconfigmail` class.
+The following parameters are available in the `autoconfigmail` class:
 
-##### `mailserver`
+* [`mailserver`](#mailserver)
+* [`documentroot`](#documentroot)
+* [`apache_config`](#apache_config)
+* [`enable_autodiscover`](#enable_autodiscover)
+* [`enable_autoconfig`](#enable_autoconfig)
+* [`vhost_type`](#vhost_type)
+* [`autoconfig_incoming`](#autoconfig_incoming)
+* [`autoconfig_outgoing`](#autoconfig_outgoing)
+* [`autoconfig_documentation`](#autoconfig_documentation)
+* [`autodiscover_protocols`](#autodiscover_protocols)
+
+##### <a name="mailserver"></a>`mailserver`
 
 Data type: `String`
 
@@ -33,7 +44,7 @@ Hash, you can overwrite this default for specified service.
 
 Default value: `$::fqdn`
 
-##### `documentroot`
+##### <a name="documentroot"></a>`documentroot`
 
 Data type: `String`
 
@@ -42,7 +53,18 @@ defaults to: '/var/www/html'
 
 Default value: `'/var/www/html'`
 
-##### `enable_autodiscover`
+##### <a name="apache_config"></a>`apache_config`
+
+Data type: `Optional[String]`
+
+Path to write an apache config snippet. For inclusion in an apache
+vhost. This file is only needed if you are configure you're vhost
+not using this module. The vhost generated with this module
+uses an implicit configuration of these settings.
+
+Default value: ``undef``
+
+##### <a name="enable_autodiscover"></a>`enable_autodiscover`
 
 Data type: `Boolean`
 
@@ -51,7 +73,7 @@ defaults to true
 
 Default value: ``true``
 
-##### `enable_autoconfig`
+##### <a name="enable_autoconfig"></a>`enable_autoconfig`
 
 Data type: `Boolean`
 
@@ -61,7 +83,7 @@ defaults to true
 
 Default value: ``true``
 
-##### `vhost_type`
+##### <a name="vhost_type"></a>`vhost_type`
 
 Data type: `String`
 
@@ -72,21 +94,21 @@ defaults to 'none'
 
 Default value: `'none'`
 
-##### `autoconfig_incoming`
+##### <a name="autoconfig_incoming"></a>`autoconfig_incoming`
 
 Data type: `Array`
 
 see ::autoconfigmail::autoconfig for details
 and example
 
-##### `autoconfig_outgoing`
+##### <a name="autoconfig_outgoing"></a>`autoconfig_outgoing`
 
 Data type: `Array`
 
 see ::autoconfigmail::autoconfig for details
 and example
 
-##### `autoconfig_documentation`
+##### <a name="autoconfig_documentation"></a>`autoconfig_documentation`
 
 Data type: `Array`
 
@@ -95,14 +117,14 @@ and example
 
 Default value: `[]`
 
-##### `autodiscover_protocols`
+##### <a name="autodiscover_protocols"></a>`autodiscover_protocols`
 
 Data type: `Array`
 
 see ::autoconfigmail::autodiscover for details
 and example
 
-### `autoconfigmail::autoconfig`
+### <a name="autoconfigmailautoconfig"></a>`autoconfigmail::autoconfig`
 
 This class implements autoconfig
 by creating a XML file whit the mail configuration
@@ -114,9 +136,21 @@ https://developer.mozilla.org/en-US/docs/Thunderbird/Autoconfiguration/FileForma
 
 #### Parameters
 
-The following parameters are available in the `autoconfigmail::autoconfig` class.
+The following parameters are available in the `autoconfigmail::autoconfig` class:
 
-##### `mailserver`
+* [`mailserver`](#mailserver)
+* [`documentroot`](#documentroot)
+* [`incoming`](#incoming)
+* [`outgoing`](#outgoing)
+* [`documentation`](#documentation)
+* [`provider`](#provider)
+* [`domain`](#domain)
+* [`shortname`](#shortname)
+* [`displayname`](#displayname)
+* [`default_authentication`](#default_authentication)
+* [`default_username`](#default_username)
+
+##### <a name="mailserver"></a>`mailserver`
 
 Data type: `String`
 
@@ -127,7 +161,7 @@ Hash, you can overwrite this default for specified service.
 
 Default value: `$autoconfigmail::mailserver`
 
-##### `documentroot`
+##### <a name="documentroot"></a>`documentroot`
 
 Data type: `String`
 
@@ -136,7 +170,7 @@ defaults to: $autoconfigmail::documentroot
 
 Default value: `$autoconfigmail::documentroot`
 
-##### `incoming`
+##### <a name="incoming"></a>`incoming`
 
 Data type: `Array`
 
@@ -156,7 +190,7 @@ $mailserver for a service.
 
 Default value: `$autoconfigmail::autoconfig_incoming`
 
-##### `outgoing`
+##### <a name="outgoing"></a>`outgoing`
 
 Data type: `Array`
 
@@ -164,6 +198,8 @@ Array of Hashes of services available for sending mail
 defaults to $autoconfigmail::autoconfig_outgoing
 
 Example in hiera for smtp service:
+  # Remark: if authentication/username is not specified,
+  # default is taken.
   autoconfigmail::autoconfig::outgoing:
     - type:           'smtp'
       port:           '25'
@@ -176,7 +212,7 @@ $mailserver for a service.
 
 Default value: `$autoconfigmail::autoconfig_outgoing`
 
-##### `documentation`
+##### <a name="documentation"></a>`documentation`
 
 Data type: `Array`
 
@@ -190,7 +226,7 @@ Array of Hashes to specify Url's about mail.
 
 Default value: `$autoconfigmail::autoconfig_documentation`
 
-##### `provider`
+##### <a name="provider"></a>`provider`
 
 Data type: `String`
 
@@ -198,7 +234,7 @@ id of the email provider (defaults to $::fqdn)
 
 Default value: `$::fqdn`
 
-##### `domain`
+##### <a name="domain"></a>`domain`
 
 Data type: `String`
 
@@ -206,7 +242,7 @@ domain of the email provider (defaults to $::domain)
 
 Default value: `$::domain`
 
-##### `shortname`
+##### <a name="shortname"></a>`shortname`
 
 Data type: `String`
 
@@ -214,7 +250,7 @@ shortname of the email provider (defaults to $::hostname)
 
 Default value: `$::hostname`
 
-##### `displayname`
+##### <a name="displayname"></a>`displayname`
 
 Data type: `String`
 
@@ -222,7 +258,25 @@ diplayname of the email provider (defaults to "Mailserver ${::fqdn}")
 
 Default value: `"Mailserver ${::fqdn}"`
 
-### `autoconfigmail::autodiscover`
+##### <a name="default_authentication"></a>`default_authentication`
+
+Data type: `String`
+
+default authentication to take for incoming and outgoing if not
+specified there
+
+Default value: `'password-encrypted'`
+
+##### <a name="default_username"></a>`default_username`
+
+Data type: `String`
+
+default username to take for incoming and outgoing if not
+specified there
+
+Default value: `'%EMAILADDRESS%'`
+
+### <a name="autoconfigmailautodiscover"></a>`autoconfigmail::autodiscover`
 
 This class implements autodiscover
 by creating a XML file with available mail services
@@ -236,9 +290,13 @@ Parameters:
 
 #### Parameters
 
-The following parameters are available in the `autoconfigmail::autodiscover` class.
+The following parameters are available in the `autoconfigmail::autodiscover` class:
 
-##### `mailserver`
+* [`mailserver`](#mailserver)
+* [`documentroot`](#documentroot)
+* [`protocols`](#protocols)
+
+##### <a name="mailserver"></a>`mailserver`
 
 Data type: `String`
 
@@ -249,7 +307,7 @@ Hash, you can overwrite this default for specified service.
 
 Default value: `$autoconfigmail::mailserver`
 
-##### `documentroot`
+##### <a name="documentroot"></a>`documentroot`
 
 Data type: `String`
 
@@ -258,7 +316,7 @@ defaults to: $autoconfigmail::documentroot
 
 Default value: `$autoconfigmail::documentroot`
 
-##### `protocols`
+##### <a name="protocols"></a>`protocols`
 
 Data type: `Array`
 
@@ -272,16 +330,28 @@ autoconfigmail::autodiscover::protocols:
 
 Default value: `$autoconfigmail::autodiscover_protocols`
 
-### `autoconfigmail::vhost::apache`
+### <a name="autoconfigmailvhostapache"></a>`autoconfigmail::vhost::apache`
 
 internal class that installs an apache vhost
 to serve xml files.
 
 #### Parameters
 
-The following parameters are available in the `autoconfigmail::vhost::apache` class.
+The following parameters are available in the `autoconfigmail::vhost::apache` class:
 
-##### `servername`
+* [`servername`](#servername)
+* [`serveraliases`](#serveraliases)
+* [`enable_autoconfig_alias`](#enable_autoconfig_alias)
+* [`apache_vhost_defaults`](#apache_vhost_defaults)
+* [`documentroot`](#documentroot)
+* [`ssl`](#ssl)
+* [`ssl_cert`](#ssl_cert)
+* [`ssl_key`](#ssl_key)
+* [`ssl_chain`](#ssl_chain)
+* [`vhost_add`](#vhost_add)
+* [`create_resources`](#create_resources)
+
+##### <a name="servername"></a>`servername`
 
 Data type: `String`
 
@@ -289,7 +359,7 @@ main servername defaults to $autoconfigmail::mailserver
 
 Default value: `$autoconfigmail::mailserver`
 
-##### `serveraliases`
+##### <a name="serveraliases"></a>`serveraliases`
 
 Data type: `Array`
 
@@ -297,7 +367,7 @@ serveraliases, defaults to []
 
 Default value: `[]`
 
-##### `enable_autoconfig_alias`
+##### <a name="enable_autoconfig_alias"></a>`enable_autoconfig_alias`
 
 Data type: `Boolean`
 
@@ -306,7 +376,7 @@ for autoconfig.
 
 Default value: ``true``
 
-##### `apache_vhost_defaults`
+##### <a name="apache_vhost_defaults"></a>`apache_vhost_defaults`
 
 Data type: `Hash`
 
@@ -315,7 +385,7 @@ defaults to {}
 
 Default value: `{}`
 
-##### `documentroot`
+##### <a name="documentroot"></a>`documentroot`
 
 Data type: `String`
 
@@ -324,7 +394,7 @@ defaults to: $autoconfigmail::documentroot
 
 Default value: `$autoconfigmail::documentroot`
 
-##### `ssl`
+##### <a name="ssl"></a>`ssl`
 
 Data type: `Boolean`
 
@@ -333,7 +403,7 @@ If true, you also need to set cert, key and chain.
 
 Default value: ``false``
 
-##### `ssl_cert`
+##### <a name="ssl_cert"></a>`ssl_cert`
 
 Data type: `String`
 
@@ -341,7 +411,7 @@ ssl cert to use
 
 Default value: `''`
 
-##### `ssl_key`
+##### <a name="ssl_key"></a>`ssl_key`
 
 Data type: `String`
 
@@ -349,7 +419,7 @@ ssl key to use
 
 Default value: `''`
 
-##### `ssl_chain`
+##### <a name="ssl_chain"></a>`ssl_chain`
 
 Data type: `String`
 
@@ -357,7 +427,7 @@ ssl chain to use
 
 Default value: `''`
 
-##### `vhost_add`
+##### <a name="vhost_add"></a>`vhost_add`
 
 Data type: `Hash`
 
@@ -370,7 +440,7 @@ Example in hiera to add an additional include file:
 
 Default value: `{}`
 
-##### `create_resources`
+##### <a name="create_resources"></a>`create_resources`
 
 Data type: `Hash`
 
