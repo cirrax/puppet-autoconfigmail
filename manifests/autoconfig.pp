@@ -6,7 +6,7 @@
 # and:
 # https://developer.mozilla.org/en-US/docs/Thunderbird/Autoconfiguration/FileFormat/HowTo.
 #
-# @param  mailserver
+# @param mailserver
 #   the mailserver to connect to
 #   defaults to: $autoconfigmail::mailserver
 #   Remark: if you specify 'hostname' on $incoming/$outgoing
