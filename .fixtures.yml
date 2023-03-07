@@ -1,13 +1,8 @@
 ---
 fixtures:
-  repositories:
-          "concat":
-                  repo:  "https://github.com/puppetlabs/puppetlabs-concat.git"
-                  branch: '2.1.x'
-          "stdlib":
-                  repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
-          "apache":
-                  repo: "https://github.com/puppetlabs/puppetlabs-apache.git"
-
+  forge_modules:
+    apache: puppetlabs/apache
+    stdlib: puppetlabs/stdlib
+    concat: puppetlabs/concat
   symlinks:
-          "autoconfigmail": "#{source_dir}"
+    autoconfigmail: "#{source_dir}"
