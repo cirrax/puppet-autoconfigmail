@@ -72,21 +72,20 @@ class autoconfigmail::autoconfig (
   Array  $incoming               = $autoconfigmail::autoconfig_incoming,
   Array  $outgoing               = $autoconfigmail::autoconfig_outgoing,
   Array  $documentation          = $autoconfigmail::autoconfig_documentation,
-  String $provider               = $::fqdn,
-  String $domain                 = $::domain,
-  String $shortname              = $::hostname,
-  String $displayname            = "Mailserver ${::fqdn}",
+  String $provider               = $facts['networking']['fqdn'],
+  String $domain                 = $facts['networking']['domain'],
+  String $shortname              = $facts['networking']['hostname'],
+  String $displayname            = "Mailserver ${facts['networking']['fqdn']}",
   String $default_authentication = 'password-encrypted',
   String $default_username       = '%EMAILADDRESS%',
-) inherits ::autoconfigmail {
-
+) inherits autoconfigmail {
   concat { "${documentroot}/config-v1.1.xml" :
     owner => 'root',
     group => 'www-data',
     mode  => '0644',
   }
 
-  concat::fragment {'autoconfigmail::autoconfig: header':
+  concat::fragment { 'autoconfigmail::autoconfig: header':
     target  => "${documentroot}/config-v1.1.xml",
     content => epp('autoconfigmail/autoconfig/header.epp',
       { provider    => $provider,
@@ -99,38 +98,38 @@ class autoconfigmail::autoconfig (
   }
 
   $incoming.each | Integer $key, Hash $val | {
-    concat::fragment {"autoconfigmail::autoconfig: incoming ${key}":
+    concat::fragment { "autoconfigmail::autoconfig: incoming ${key}":
       target  => "${documentroot}/config-v1.1.xml",
       content => epp('autoconfigmail/autoconfig/incoming.epp',
         { hostname       => $mailserver,
           authentication => $default_authentication,
           username       => $default_username,
-        } + $val ),
+      } + $val ),
       order   => "40-${key}",
     }
   }
 
   $outgoing.each | Integer $key, Hash $val | {
-    concat::fragment {"autoconfigmail::autoconfig: outgoing ${key}":
+    concat::fragment { "autoconfigmail::autoconfig: outgoing ${key}":
       target  => "${documentroot}/config-v1.1.xml",
       content => epp('autoconfigmail/autoconfig/outgoing.epp',
         { hostname       => $mailserver,
           authentication => $default_authentication,
           username       => $default_username,
-        } + $val ),
+      } + $val ),
       order   => "50-${key}",
     }
   }
 
   $documentation.each | Integer $key, Hash $val | {
-    concat::fragment {"autoconfigmail::autoconfig: documentation ${key}":
+    concat::fragment { "autoconfigmail::autoconfig: documentation ${key}":
       target  => "${documentroot}/config-v1.1.xml",
       content => epp('autoconfigmail/autoconfig/documentation.epp', $val ),
       order   => "60-${key}",
     }
   }
 
-  concat::fragment {'autoconfigmail::autoconfig: footer':
+  concat::fragment { 'autoconfigmail::autoconfig: footer':
     target  => "${documentroot}/config-v1.1.xml",
     content => epp('autoconfigmail/autoconfig/footer.epp'),
     order   => '99',

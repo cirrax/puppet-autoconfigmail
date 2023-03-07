@@ -64,9 +64,8 @@ class autoconfigmail::vhost::apache (
   Hash    $vhost_add               = {},
   Hash    $create_resources        = {},
 ) inherits autoconfigmail {
-
-  include ::apache
-  include ::apache::mod::php
+  include apache
+  include apache::mod::php
 
   if $enable_autoconfig_alias {
     $_serveraliases = union($serveraliases, ['autoconfig.*'])
@@ -100,19 +99,19 @@ class autoconfigmail::vhost::apache (
     }
   }
   $vhost_defaults = merge($vhost_add, {
-    'docroot'       => $documentroot,
-    'aliases'       => [
-      { alias => '/autodiscover/autodiscover.xml',
-        path  => "${documentroot}/autodiscover.xml",
-      },
-      { alias => '/Autodiscover/Autodiscover.xml',
-        path  => "${documentroot}/autodiscover.xml",
-      },
-      { alias => '/mail/config-v1.1.xml',
-        path  => "${documentroot}/config-v1.1.xml",
-      },
-    ],
-    custom_fragment => "<Files \"autodiscover.xml\">\n    AddType application/x-httpd-php .xml\n  </Files>",
+      'docroot'       => $documentroot,
+      'aliases'       => [
+        { alias => '/autodiscover/autodiscover.xml',
+          path  => "${documentroot}/autodiscover.xml",
+        },
+        { alias => '/Autodiscover/Autodiscover.xml',
+          path  => "${documentroot}/autodiscover.xml",
+        },
+        { alias => '/mail/config-v1.1.xml',
+          path  => "${documentroot}/config-v1.1.xml",
+        },
+      ],
+      custom_fragment => "<Files \"autodiscover.xml\">\n    AddType application/x-httpd-php .xml\n  </Files>",
   })
 
   create_resources('apache::vhost', $vhosts, $vhost_defaults)

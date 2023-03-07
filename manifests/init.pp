@@ -42,7 +42,7 @@ class autoconfigmail (
   Array            $autoconfig_incoming,
   Array            $autoconfig_outgoing,
   Array            $autodiscover_protocols,
-  String           $mailserver               = $::fqdn,
+  String           $mailserver               = $facts['networking']['fqdn'],
   String           $documentroot             = '/var/www/html',
   Optional[String] $apache_config            = undef,
   Boolean          $enable_autodiscover      = true,
@@ -50,26 +50,25 @@ class autoconfigmail (
   String           $vhost_type               = 'none',
   Array            $autoconfig_documentation = [],
 ) {
-
   if $enable_autodiscover {
-    include ::autoconfigmail::autodiscover
+    include autoconfigmail::autodiscover
   }
 
   if $enable_autoconfig {
-    include ::autoconfigmail::autoconfig
+    include autoconfigmail::autoconfig
   }
 
   if $apache_config {
-    file{ $apache_config:
+    file { $apache_config:
       mode    => '0444',
       content => epp('autoconfigmail/apache.conf.epp', {
-        'docroot' => $documentroot,
-      } )
+          'docroot' => $documentroot,
+      }),
     }
   }
 
   case $vhost_type {
-    'apache': { include ::autoconfigmail::vhost::apache }
+    'apache': { include autoconfigmail::vhost::apache }
     default: {}
   }
 }

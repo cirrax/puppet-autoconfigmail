@@ -30,32 +30,30 @@ class autoconfigmail::autodiscover (
   String $mailserver   = $autoconfigmail::mailserver,
   String $documentroot = $autoconfigmail::documentroot,
   Array  $protocols    = $autoconfigmail::autodiscover_protocols,
-) inherits ::autoconfigmail {
-
+) inherits autoconfigmail {
   concat { "${documentroot}/autodiscover.xml" :
     owner => 'root',
     group => 'www-data',
     mode  => '0644',
   }
 
-  concat::fragment {'autoconfigmail::autodiscover: header':
+  concat::fragment { 'autoconfigmail::autodiscover: header':
     target  => "${documentroot}/autodiscover.xml",
     content => epp('autoconfigmail/autodiscover/header.epp', { mailserver => $mailserver }),
     order   => '00',
   }
 
   $protocols.each | Integer $key, Hash $val | {
-    concat::fragment {"autoconfigmail::autodiscover: protocol ${key}":
+    concat::fragment { "autoconfigmail::autodiscover: protocol ${key}":
       target  => "${documentroot}/autodiscover.xml",
       content => epp('autoconfigmail/autodiscover/protocol.epp', $val),
       order   => "50-${key}",
     }
   }
 
-  concat::fragment {'autoconfigmail::autodiscover: footer':
+  concat::fragment { 'autoconfigmail::autodiscover: footer':
     target  => "${documentroot}/autodiscover.xml",
     content => epp('autoconfigmail/autodiscover/footer.epp'),
     order   => '99',
   }
-
 }
