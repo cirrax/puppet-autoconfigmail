@@ -77,12 +77,12 @@ class autoconfigmail::vhost::apache (
     $vhosts = {
       $servername => {
         'serveraliases' => $_serveraliases,
-        'port'          => '80',
+        'port'          => 80,
       },
       "${servername}_SSL" => {
         'servername'      => $servername,
         'serveraliases'   => $serveraliases, # autoconfig * alias is not suitable for a cert !
-        'port'            => '443',
+        'port'            => 443,
         'ssl'             => $ssl,
         'ssl_cert'        => $ssl_cert,
         'ssl_key'         => $ssl_key,
@@ -94,7 +94,7 @@ class autoconfigmail::vhost::apache (
     $vhosts = {
       $servername => {
         'serveraliases' => $_serveraliases,
-        'port'          => '80',
+        'port'          => 80,
       },
     }
   }
