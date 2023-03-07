@@ -52,17 +52,17 @@
 #   }
 #
 class autoconfigmail::vhost::apache (
-  String  $servername              = $autoconfigmail::mailserver,
-  Array   $serveraliases           = [],
-  Boolean $enable_autoconfig_alias = true,
-  Hash    $apache_vhost_defaults   = {},
-  String  $documentroot            = $autoconfigmail::documentroot,
-  Boolean $ssl                     = false,
-  String  $ssl_cert                = '',
-  String  $ssl_key                 = '',
-  String  $ssl_chain               = '',
-  Hash    $vhost_add               = {},
-  Hash    $create_resources        = {},
+  String                         $servername              = $autoconfigmail::mailserver,
+  Array                          $serveraliases           = [],
+  Boolean                        $enable_autoconfig_alias = true,
+  Hash                           $apache_vhost_defaults   = {},
+  String                         $documentroot            = $autoconfigmail::documentroot,
+  Boolean                        $ssl                     = false,
+  Optional[Stdlib::Absolutepath] $ssl_cert                = undef,
+  Optional[Stdlib::Absolutepath] $ssl_key                 = undef,
+  Optional[Stdlib::Absolutepath] $ssl_chain               = undef,
+  Hash                           $vhost_add                = {},
+  Hash                           $create_resources        = {},
 ) inherits autoconfigmail {
   include apache
   include apache::mod::php
@@ -73,7 +73,7 @@ class autoconfigmail::vhost::apache (
     $_serveraliases = $serveraliases
   }
 
-  if $ssl_cert != '' {
+  if $ssl_cert {
     $vhosts = {
       $servername => {
         'serveraliases' => $_serveraliases,
