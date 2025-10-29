@@ -4,5 +4,3 @@ fixtures:
     apache: puppetlabs/apache
     stdlib: puppetlabs/stdlib
     concat: puppetlabs/concat
-  symlinks:
-    autoconfigmail: "#{source_dir}"

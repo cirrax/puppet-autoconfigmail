@@ -1,10 +1,5 @@
 # autoconfig puppet module
 
-[![Build Status](https://travis-ci.org/cirrax/puppet-autoconfigmail.svg?branch=master)](https://travis-ci.org/cirrax/puppet-autoconfigmail)
-[![Puppet Forge](https://img.shields.io/puppetforge/v/cirrax/autoconfigmail.svg?style=flat-square)](https://forge.puppetlabs.com/cirrax/autoconfigmail)
-[![Puppet Forge](https://img.shields.io/puppetforge/dt/cirrax/autoconfigmail.svg?style=flat-square)](https://forge.puppet.com/cirrax/autoconfigmail)
-[![Puppet Forge](https://img.shields.io/puppetforge/e/cirrax/autoconfigmail.svg?style=flat-square)](https://forge.puppet.com/cirrax/autoconfigmail)
-[![Puppet Forge](https://img.shields.io/puppetforge/f/cirrax/autoconfigmail.svg?style=flat-square)](https://forge.puppet.com/cirrax/autoconfigmail)
 
 #### Table of Contents
 
