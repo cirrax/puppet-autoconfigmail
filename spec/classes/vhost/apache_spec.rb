@@ -13,6 +13,7 @@ describe 'autoconfigmail::vhost::apache' do
 
   shared_examples 'autoconfigmail::vhost::apache shared examples' do
     it { is_expected.to compile.with_all_deps }
+
     it {
       is_expected.to contain_apache__vhost(params[:servername])
         .with_port(80)

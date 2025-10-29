@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'spec_helper'
 
@@ -16,8 +17,9 @@ describe 'autoconfigmail::autoconfig' do
 
   shared_examples 'autoconfigmail::autoconfig shared examples' do
     it { is_expected.to compile.with_all_deps }
+
     it {
-      is_expected.to contain_concat(params[:documentroot] + '/config-v1.1.xml')
+      is_expected.to contain_concat("#{params[:documentroot]}/config-v1.1.xml")
         .with_owner('root')
         .with_group('www-data')
         .with_mode('0644')
@@ -25,27 +27,31 @@ describe 'autoconfigmail::autoconfig' do
 
     it {
       is_expected.to contain_concat__fragment('autoconfigmail::autoconfig: header')
-        .with_target(params[:documentroot] + '/config-v1.1.xml')
+        .with_target("#{params[:documentroot]}/config-v1.1.xml")
         .with_order('00')
     }
+
     it {
       is_expected.to contain_concat__fragment('autoconfigmail::autoconfig: footer')
-        .with_target(params[:documentroot] + '/config-v1.1.xml')
+        .with_target("#{params[:documentroot]}/config-v1.1.xml")
         .with_order('99')
     }
+
     it {
       is_expected.to contain_concat__fragment('autoconfigmail::autoconfig: incoming 0')
-        .with_target(params[:documentroot] + '/config-v1.1.xml')
+        .with_target("#{params[:documentroot]}/config-v1.1.xml")
         .with_order('40-0')
     }
+
     it {
       is_expected.to contain_concat__fragment('autoconfigmail::autoconfig: outgoing 0')
-        .with_target(params[:documentroot] + '/config-v1.1.xml')
+        .with_target("#{params[:documentroot]}/config-v1.1.xml")
         .with_order('50-0')
     }
+
     it {
       is_expected.to contain_concat__fragment('autoconfigmail::autoconfig: documentation 0')
-        .with_target(params[:documentroot] + '/config-v1.1.xml')
+        .with_target("#{params[:documentroot]}/config-v1.1.xml")
         .with_order('60-0')
     }
   end
@@ -75,7 +81,7 @@ describe 'autoconfigmail::autoconfig' do
           default_params.merge(
             incoming: [],
             outgoing: [],
-            documentation: [],
+            documentation: []
           )
         end
 

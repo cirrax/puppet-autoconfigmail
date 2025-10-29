@@ -14,25 +14,24 @@ autoconfigmail::autoconfig_incoming:
   - type: 'imap'
     port: '993'
     sockettype: 'SSL'
-    
+
   - type: 'imap'
     port: '143'
     sockettype: 'STARTTLS'
-    
+
   - type: 'pop3'
     port: '995'
     sockettype: 'SSL'
-    
+
   - type: 'pop3'
     port: '110'
     sockettype: 'STARTTLS'
-
 
 autoconfigmail::autoconfig_outgoing:
   - type: 'smtp'
     port: '465'
     sockettype: 'SSL'
-    
+
   - type: 'smtp'
     port: '587'
     sockettype: 'STARTTLS'

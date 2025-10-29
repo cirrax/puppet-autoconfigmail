@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'spec_helper'
 
@@ -10,8 +11,9 @@ describe 'autoconfigmail::autodiscover' do
 
   shared_examples 'autoconfigmail::autodiscover shared examples' do
     it { is_expected.to compile.with_all_deps }
+
     it {
-      is_expected.to contain_concat(params[:documentroot] + '/autodiscover.xml')
+      is_expected.to contain_concat("#{params[:documentroot]}/autodiscover.xml")
         .with_owner('root')
         .with_group('www-data')
         .with_mode('0644')
@@ -19,17 +21,19 @@ describe 'autoconfigmail::autodiscover' do
 
     it {
       is_expected.to contain_concat__fragment('autoconfigmail::autodiscover: header')
-        .with_target(params[:documentroot] + '/autodiscover.xml')
+        .with_target("#{params[:documentroot]}/autodiscover.xml")
         .with_order('00')
     }
+
     it {
       is_expected.to contain_concat__fragment('autoconfigmail::autodiscover: footer')
-        .with_target(params[:documentroot] + '/autodiscover.xml')
+        .with_target("#{params[:documentroot]}/autodiscover.xml")
         .with_order('99')
     }
+
     it {
       is_expected.to contain_concat__fragment('autoconfigmail::autodiscover: protocol 0')
-        .with_target(params[:documentroot] + '/autodiscover.xml')
+        .with_target("#{params[:documentroot]}/autodiscover.xml")
         .with_order('50-0')
     }
   end
@@ -73,7 +77,7 @@ describe 'autoconfigmail::autodiscover' do
       context 'with no services' do
         let :params do
           default_params.merge(
-            protocols: [],
+            protocols: []
           )
         end
 
